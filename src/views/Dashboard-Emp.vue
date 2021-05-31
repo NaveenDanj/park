@@ -25,7 +25,7 @@
             </v-tab-item>
 
             <v-tab-item > 
-                <AccessVehicle/>
+                <CompleteAccess/>
             </v-tab-item>
           </v-tabs>
         </v-card>
@@ -38,11 +38,13 @@
 import firebase from "firebase";
 import AccessVehicle from "../components/DashboardEmp/AccessVehicle.vue";
 import ChangeStatus from "../components/DashboardEmp/ChnageStatus.vue";
+import CompleteAccess from "../components/DashboardEmp/CompleteAccess.vue";
 
 export default {
   components: {
     AccessVehicle,
-    ChangeStatus
+    ChangeStatus,
+    CompleteAccess
   },
 
   data() {
