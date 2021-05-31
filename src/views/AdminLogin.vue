@@ -1,0 +1,92 @@
+<template>
+  <v-row justify="center" class="mt-10">
+    <v-col cols="12" sm="10" md="8" lg="6">
+
+      <v-card ref="form">
+
+
+        <v-toolbar
+            flat
+            color="teal"
+            >
+            <v-icon class="white--text">mdi-account-key</v-icon>
+            <v-toolbar-title class="font-weight-light white--text ml-3">
+                Admin Login
+            </v-toolbar-title>
+
+        </v-toolbar>
+
+        <v-card-text>
+
+          <v-text-field
+            v-model="username"
+            :rules="[() => !!username || 'This field is required']"
+            label="Admin Username"
+            placeholder="John Doe"
+            required
+          ></v-text-field><br/>
+
+          <v-text-field
+            v-model="password"
+            :rules="[() => !!password || 'This field is required']"
+            label="Admin Password"
+            placeholder="John Doe"
+            required
+          ></v-text-field>
+
+          <!-- <v-text-field
+            ref="address"
+            v-model="address"
+            :rules="[
+              () => !!address || 'This field is required',
+              () => !!address && address.length <= 25 || 'Address must be less than 25 characters',
+              addressCheck
+            ]"
+            label="Address Line"
+            placeholder="Snowy Rock Pl"
+            counter="25"
+            required
+          ></v-text-field> -->
+
+
+        </v-card-text>
+
+        <v-divider class="mt-12"></v-divider>
+        <v-card-actions>
+
+          <v-btn class="ma-2" outlined color="warning" large >Cancel</v-btn>
+
+          <v-spacer></v-spacer>
+
+
+          <v-btn class="ma-2" outlined color="success" large @click="submit">Submit</v-btn>
+        </v-card-actions>
+
+
+      </v-card>
+    </v-col>
+  </v-row>
+</template>
+
+<script>
+export default {
+  
+  name: "AdminLogin",
+
+  data(){
+    return {
+      username : '',
+      password : ''
+    }
+  },
+
+  methods :{
+    submit(){
+      console.log('clicked')
+    }
+  }
+  
+
+
+};
+</script>
