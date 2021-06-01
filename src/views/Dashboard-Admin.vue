@@ -19,8 +19,8 @@
             <v-spacer></v-spacer>
 
             <v-tab>All Vehicles</v-tab>
-            <v-tab>Change status</v-tab>
-            <v-tab>Complete Acess</v-tab>
+            <v-tab>Add New Status</v-tab>
+            <v-tab>Add New Type</v-tab>
 
             <v-tab-item>
 
@@ -72,7 +72,8 @@
 </template>
 
 <script>
-import firebase from "firebase";
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 export default {
   components: {},
@@ -111,7 +112,7 @@ export default {
 
   methods: {
 
-    async filterItems(){
+    filterItems(){
 
       if(this.filter_type == 'All'){
 
@@ -129,11 +130,14 @@ export default {
 
       }else{
         this.item_list = [];
-        let data = await firebase.firestore().collection("access_list").where("status" , "==" , this.filter_type)
-        console.log(data.data());
-        data.forEach(doc => {
-          this.item_list.push(doc.data());
-        })
+        firebase.firestore().collection("access_list").where("status" , "==" , this.filter_type)
+        .get()
+        .then(snap =>{
+          snap.forEach(doc => {
+            this.item_list.push(doc.data());
+          });
+        });
+        
 
         
         
