@@ -56,7 +56,7 @@
                 </v-card-subtitle>
 
                 <v-card-actions>
-                  <v-btn text>Time : {{ new Date(item.time.seconds) }}</v-btn>
+                  <v-btn text>Time : {{ item.time }}</v-btn>
                 </v-card-actions>
               </v-card>
             </v-tab-item>
@@ -121,6 +121,8 @@ export default {
 
         this.item_list = [];
 
+        this.loading = true;
+
         firebase
         .firestore()
         .collection("access_list")
@@ -129,16 +131,21 @@ export default {
           snap.forEach((doc) => {
             this.item_list.push(doc.data());
           });
+
+          this.loading = false;
         });
 
       }else{
         this.item_list = [];
+        this.loading = true;
         firebase.firestore().collection("access_list").where("status" , "==" , this.filter_type)
         .get()
         .then(snap =>{
           snap.forEach(doc => {
             this.item_list.push(doc.data());
           });
+
+          this.loading = false;
         });
         
 
