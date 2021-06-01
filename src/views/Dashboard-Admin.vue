@@ -27,7 +27,7 @@
 
                 <v-select
                   :items="['All' , 'Available' , 'Unavailable']"
-                  label="Filter By"
+                  label="Filter By Status"
                   v-model="filter_type"
                   outlined
                   class="mt-5 ml-5 mr-5"
