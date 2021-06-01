@@ -89,6 +89,9 @@ export default {
         snap.forEach((doc) => {
           this.item_list.push(doc.data());
         });
+
+        this.loading = false;
+
       });
 
       firebase
@@ -104,7 +107,7 @@ export default {
 
   data() {
     return {
-      loading: false,
+      loading: true,
       item_list: [],
       filter_type : '',
     };
