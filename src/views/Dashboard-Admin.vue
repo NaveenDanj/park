@@ -111,7 +111,7 @@ export default {
 
   methods: {
 
-    filterItems(){
+    async filterItems(){
 
       if(this.filter_type == 'All'){
 
@@ -128,15 +128,15 @@ export default {
         });
 
       }else{
-        firebase
-        .firestore()
-        .collection("access_list")
-        .onSnapshot((newSnap) => {
-          this.item_list = [];
-          newSnap.forEach((doc) => {
-            this.item_list.push(doc.data());
-          });
-        });
+        this.item_list = [];
+        let data = await firebase.firestore().collection("access_list").where("status" , "==" , this.filter_type)
+        console.log(data.data());
+        data.forEach(doc => {
+          this.item_list.push(doc.data());
+        })
+
+        
+        
       }
 
       
