@@ -18,6 +18,11 @@ const routes = [
     path: '/dashemp',
     name: 'EmployeeDash',
     component: () => import(/* webpackChunkName: "about" */ '../views/Dashboard-Emp.vue')
+  },
+  {
+    path: '/dashadmin',
+    name: 'EmployeeDash',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Dashboard-Admin.vue')
   }
 ]
 

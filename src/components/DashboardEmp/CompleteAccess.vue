@@ -106,6 +106,7 @@ export default {
                 .then(() => {
                     this.show = true;
                     this.message = 'Access Vehicle Completed!';
+                    this.cancel();
                 }) 
 
             }else{

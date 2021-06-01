@@ -7,26 +7,63 @@
     <v-row v-else justify="center" class="mt-10">
       <v-col cols="12" sm="10" md="8" lg="10">
         <v-card>
-          <v-tabs background-color="blue" class="white--text" color="deep-purple accent-4" right>
-            <!-- <v-card-title> Employee Controle </v-card-title> -->
+          <v-tabs
+            background-color="blue"
+            class="white--text"
+            color="deep-purple accent-4"
+            right
+            
+          >
+            <v-card-title> All Vehicle Details </v-card-title>
 
             <v-spacer></v-spacer>
 
-            <v-tab>Access Vehicle</v-tab>
+            <v-tab>All Vehicles</v-tab>
             <v-tab>Change status</v-tab>
             <v-tab>Complete Acess</v-tab>
 
-            <v-tab-item> 
-                <AccessVehicle/>
+            <v-tab-item>
+
+              
+
+                <v-select
+                  :items="['All' , 'Available' , 'Unavailable']"
+                  label="Filter By"
+                  v-model="filter_type"
+                  outlined
+                  class="mt-5 ml-5 mr-5"
+                  @change="filterItems"
+                ></v-select>
+
+               
+
+             
+
+              <v-card
+                v-for="(item, index) in this.item_list"
+                :key="index"
+                color="#385F73"
+                dark
+                class="ma-5"
+              >
+                <v-card-title class="headline"
+                  >{{ item.fname }} {{ item.lname }}</v-card-title
+                >
+
+                <v-card-subtitle class="mt-5">
+                  <h3>Status : {{ item.status }}</h3>
+                  <h3>Category : {{ item.type }}</h3>
+                </v-card-subtitle>
+
+                <v-card-actions>
+                  <v-btn text>Time : {{ new Date(item.time.seconds) }}</v-btn>
+                </v-card-actions>
+              </v-card>
             </v-tab-item>
 
-            <v-tab-item > 
-                <ChangeStatus/>
-            </v-tab-item>
+            <v-tab-item> ASD </v-tab-item>
 
-            <v-tab-item > 
-                <CompleteAccess/>
-            </v-tab-item>
+            <v-tab-item> ASD </v-tab-item>
           </v-tabs>
         </v-card>
       </v-col>
@@ -36,59 +73,76 @@
 
 <script>
 import firebase from "firebase";
-import AccessVehicle from "../components/DashboardEmp/AccessVehicle.vue";
-import ChangeStatus from "../components/DashboardEmp/ChnageStatus.vue";
-import CompleteAccess from "../components/DashboardEmp/CompleteAccess.vue";
 
 export default {
-  components: {
-    AccessVehicle,
-    ChangeStatus,
-    CompleteAccess
+  components: {},
+
+  created() {
+    this.item_list = [];
+
+    firebase
+      .firestore()
+      .collection("access_list")
+      .get()
+      .then((snap) => {
+        snap.forEach((doc) => {
+          this.item_list.push(doc.data());
+        });
+      });
+
+      firebase
+      .firestore()
+      .collection("access_list")
+      .onSnapshot((newSnap) => {
+        this.item_list = [];
+        newSnap.forEach((doc) => {
+          this.item_list.push(doc.data());
+        });
+      });
   },
 
   data() {
     return {
-      loading: true,
-      hasSaved: false,
-      isEditing: null,
-      model: null,
-      states: [],
+      loading: false,
+      item_list: [],
+      filter_type : '',
     };
   },
 
   methods: {
-    customFilter(item, queryText) {
-      const textOne = item.name.toLowerCase();
-      const textTwo = item.abbr.toLowerCase();
-      const searchText = queryText.toLowerCase();
 
-      return (
-        textOne.indexOf(searchText) > -1 || textTwo.indexOf(searchText) > -1
-      );
-    },
+    filterItems(){
 
-    save() {
-      this.isEditing = !this.isEditing;
-      this.hasSaved = true;
-    },
+      if(this.filter_type == 'All'){
 
-    cancel() {
-      this.isEditing = !this.isEditing;
-      this.hasSaved = true;
-    },
-  },
+        this.item_list = [];
 
-  created() {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        let uid = user.uid;
-        console.log(uid);
-        this.loading = false;
-      } else {
-        this.$router.push("/");
+        firebase
+        .firestore()
+        .collection("access_list")
+        .get()
+        .then((snap) => {
+          snap.forEach((doc) => {
+            this.item_list.push(doc.data());
+          });
+        });
+
+      }else{
+        firebase
+        .firestore()
+        .collection("access_list")
+        .onSnapshot((newSnap) => {
+          this.item_list = [];
+          newSnap.forEach((doc) => {
+            this.item_list.push(doc.data());
+          });
+        });
       }
-    });
+
+      
+    }
+
+
   },
 };
 </script>
