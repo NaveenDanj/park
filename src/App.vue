@@ -85,7 +85,7 @@ export default {
     },
 
     adminlogin() {
-      this.$router.push("/adminlogin");
+      this.$router.push("/dashadmin");
     },
 
     handleSignOut() {
