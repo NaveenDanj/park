@@ -19,10 +19,9 @@
 
     <v-card-text>
       <v-row>
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="6">
           <v-text-field
             v-model="fname"
-            @keydown="key_change"
             :rules="[() => !!fname || 'This field is required']"
             :disabled="!isEditing"
             color="white"
@@ -30,10 +29,9 @@
           ></v-text-field>
         </v-col>
 
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="6">
           <v-text-field
             v-model="lname"
-            @keydown="key_change"
             :rules="[() => !!fname || 'This field is required']"
             :disabled="!isEditing"
             color="white"
@@ -41,23 +39,8 @@
           ></v-text-field>
         </v-col>
 
-        <v-col cols="12" md="4">
-            <v-btn :disabled="!isEditing" color="success" class="mb-2" @click="add_user">
-                Add User
-            </v-btn>
-        </v-col>
-
-
       </v-row>
 
-      <v-autocomplete
-        :disabled="!isEditing || !found"
-        v-model="status"
-        :items="status_list"
-        color="white"
-        item-text="name"
-        label="Status"
-      ></v-autocomplete>
 
     </v-card-text>
     <v-divider></v-divider>
@@ -67,7 +50,7 @@
         Cancel
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn :disabled="!isEditing || !found" color="success" x-large @click="save">
+      <v-btn :disabled="!isEditing" color="success" x-large @click="save">
         Submit
       </v-btn>
     </v-card-actions>
@@ -89,19 +72,6 @@ export default {
     AlertBox,
   },
 
-  created() {
-    this.status_list = [];
-
-    firebase
-      .firestore()
-      .collection("status")
-      .get()
-      .then((snapshot) => {
-        snapshot.forEach((doc) => {
-          this.status_list.push(doc.data().name);
-        });
-      });
-  },
 
   data() {
     return {
@@ -110,7 +80,6 @@ export default {
       isEditing: null,
       found : false,
       model: null,
-      status_list: [],
 
       fname: "",
       lname: "",
@@ -124,60 +93,29 @@ export default {
 
     save() {
 
-      if (this.fname == "" || this.lname == "" || this.status == null){
+      if (this.fname == "" || this.lname == ""){
         this.show = true;
         this.message = 'Please Fill all the fields';
       }else{
         
-        firebase.firestore().collection('access_list').doc(this.fname + '_' + this.lname).update({
-            status : this.status
-        })
-        .then(() => {
-            this.show = true;
-            this.message = 'Access Status Updated Successfully!';
-            this.isEditing = !this.isEditing;
-            this.hasSaved = true;
-            this.cancel();
-        })
-        .catch((error) => {
-            console.error("Error updating document: ", error);
-        });
+        firebase.firestore().collection('access_list').doc(this.fname +'_'+this.lname).get()
+        .then(doc => {
+            if(doc.exists){
 
+                firebase.firestore().collection("access_list").doc(this.fname +'_'+this.lname).delete()
+                .then(() => {
+                    this.show = true;
+                    this.message = 'Access Vehicle Completed!';
+                }) 
+
+            }else{
+                this.show = true;
+                this.message = 'No Access data found for this Employee!';
+            }
+        })
 
       }
         
-    },
-
-    add_user(){
-        if (this.fname == "" || this.lname == "" ){
-            this.show = true;
-            this.message = 'Please Fill all the fields';
-        }else{
-            
-            firebase.firestore().collection('access_list').doc(this.fname + '_' + this.lname).get()
-            .then(doc => {
-                if(doc.exists){
-
-                    this.fname = doc.data().fname;
-                    this.lname = doc.data().lname;
-                    this.found = true;
-
-                    this.show = true;
-                    this.message = 'Access Data Found';
-
-
-                }else{
-                    this.show = true;
-                    this.message = 'No Access Data regarding this user!';
-                }
-            })
-
-        }
-    },
-
-    key_change(){
-        this.found = false;
-        this.status = null;
     },
 
     handleOK(){
@@ -187,7 +125,6 @@ export default {
     cancel() {
       this.fname = '';
       this.lname = '';
-      this.status = null;
     },
   },
 };
