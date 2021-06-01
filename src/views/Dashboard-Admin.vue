@@ -14,7 +14,6 @@
             right
             
           >
-            <v-card-title> All Vehicle Details </v-card-title>
 
             <v-spacer></v-spacer>
 
