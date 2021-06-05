@@ -121,7 +121,7 @@ export default {
            
 
             let now_timestamp = Date.now();
-            let expire_timestamp = now_timestamp + 5000;
+            let expire_timestamp = now_timestamp + (1000 * 60 * 5 );
 
             console.log(now_timestamp , expire_timestamp);
 
@@ -150,22 +150,6 @@ export default {
       }
 
     },
-
-    // submit() {
-    //   firebase
-    //     .auth()
-    //     .signInWithEmailAndPassword(this.email, this.password)
-    //     .then((userCredential) => {
-    //       let user = userCredential.user;
-    //       console.log(user);
-    //       this.$router.push("/dashemp");
-    //     })
-    //     .catch((error) => {
-    //       var errorMessage = error.message;
-    //       this.show = true;
-    //       this.message = errorMessage;
-    //     });
-    // },
 
     handleOK() {
       this.show = false;

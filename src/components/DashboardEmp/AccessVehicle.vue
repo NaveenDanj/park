@@ -129,18 +129,19 @@ export default {
   created() {
     this.vehicle_list = [];
     this.status_list = [];
+    this.names = [];
 
     firebase.firestore().collection('access_list').get()
     .then(snap => {
       snap.forEach(doc => {
-        this.names.push(doc.data().fname + '_' + doc.data().lname);
+        this.names.push(doc.id);
       })
     })
 
     firebase.firestore().collection('access_list')
     .onSnapshot((newSnap) => {
       newSnap.forEach((doc) => {
-        this.names.push(doc.data().fname + '_' + doc.data().lname);
+        this.names.push(doc.id);
       });
     });
 
@@ -199,6 +200,16 @@ export default {
 
   methods: {
 
+    update_name_list(){
+      this.names = [];
+      firebase.firestore().collection('access_list').get()
+      .then(snap => {
+        snap.forEach(doc => {
+          this.names.push(doc.id);
+        })
+      })
+    },
+
     get_today_date(){
 
       const d = new Date();
@@ -215,9 +226,9 @@ export default {
       let seconds = today.getSeconds().toString();
 
       if(today.getMinutes().toString().length < 2){
-          mins =  "0" + today.getMinutes().toString();
+        mins =  "0" + today.getMinutes().toString();
       }else{
-          mins = today.getMinutes().toString();
+        mins = today.getMinutes().toString();
       }
 
       if(seconds.length < 2){
@@ -269,7 +280,7 @@ export default {
 
     update_status(){
 
-      if(this.fullname != null && this.update_status != null){
+      if(this.fullname != null && this.updated_status != null){
 
         if(this.updated_status == 'Out Of Service'){
 
@@ -277,32 +288,73 @@ export default {
           .then(() => {
             this.show = true;
             this.message = 'Status updated successfully';
+            this.update_name_list();
           })
 
         }else{
-          firebase.firestore().collection('access_list').doc(this.fullname).update({
-            status : this.updated_status
-          })
-          .then(() =>{
-            this.show = true;
-            this.message = 'Status updated successfully';
+
+          console.log(this.fullname);
+
+          firebase.firestore().collection('access_list').doc(this.fullname).get()
+          .then(document => {
+
+            if(document.data().merge){
+              
+              firebase.firestore().collection('access_list').doc(document.id).update({
+                status1 : this.updated_status,
+                status2 : this.updated_status
+              })
+              .then(() =>{
+                this.show = true;
+                this.message = 'Status updated successfully';
+
+                this.fullname = null;
+                this.updated_status = null;
+              })
+              .catch(err =>{
+                console.log('the new error is ' , err);
+              })
+
+            }else{
+              
+
+              firebase.firestore().collection('access_list').doc(document.data().fname + "_" + document.data().lname).update({
+                status : this.updated_status,
+              })
+              .then(() =>{
+                this.show = true;
+                this.message = 'Status updated successfully';
+
+                this.fullname = null;
+                this.updated_status = null;
+              })
+              .catch(err => {
+                if(err.includes('No document to update')){
+                  this.show = true;
+                  this.message = 'Your access data might be deleted by the admin';
+                }else{
+                  this.show = true;
+                  this.message = '[Error Code 001] - Please contact tech team for more informations!';
+                }
+              })
+
+            }
+
           })
           .catch(err => {
-            if(err.includes('No document to update')){
-              this.show = true;
-              this.message = 'Your access data might be deleted by the admin';
-            }else{
-              this.show = true;
-              this.message = '[Error Code 001] - Please contact tech team for more informations!';
-            }
-          })
-        }
+            
+            console.log('new' , err)
+          });
 
+
+        }
         
       }else{
         this.show = true;
         this.message = 'Please fill out all fields!';
       }
+
+     
 
       
     },
