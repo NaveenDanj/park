@@ -31,6 +31,7 @@
             :rules="[() => !!password || 'This field is required']"
             label="Admin Password"
             placeholder="John Doe"
+            type="password"
             required
           ></v-text-field>
 
@@ -71,6 +72,7 @@
 
 <script>
 import AlertBox from "../components/DialogBox/Alertbox.vue";
+import firebase from "firebase";
 
 export default {
   
@@ -94,6 +96,38 @@ export default {
       if(this.username == '' || this.password == ""){
         this.show = true;
         this.message = "Please fill out all the fields!";
+      }else{
+
+        firebase.firestore().collection('admins').doc(this.username).get()
+        .then(doc => {
+
+          if(doc.data().username == this.username && doc.data().password == this.password){
+
+            let now_timestamp = Date.now();
+            let expire_timestamp = now_timestamp + 50000;
+
+            console.log(now_timestamp , expire_timestamp);
+
+            this.$store.state.currentAdmin.username = this.username;
+            this.$store.state.currentAdmin.login_time = now_timestamp;
+            this.$store.state.currentAdmin.logout_time = expire_timestamp;
+
+            this.show = true;
+            this.message = 'You are logged in!';
+
+            this.$router.push("/dashadmin");
+
+          }else{
+            this.show = true;
+            this.message = "Username Or password is incorrect!";
+          }
+
+        })
+        .catch(() => {
+          this.show = true;
+          this.message = "Username Or password is incorrect!";
+        })
+
       }
     },
 

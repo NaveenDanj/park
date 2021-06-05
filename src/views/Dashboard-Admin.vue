@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @click="checkLogin">
     <div v-if="loading">
       <h4>Loading...</h4>
     </div>
@@ -152,6 +152,13 @@ export default {
 
   created() {
 
+    if(this.$store.state.currentAdmin.username != ''){
+      this.loading = false;
+    }else{
+      this.$router.push("/");
+    }
+
+
     this.item_list = [];
 
     firebase
@@ -209,6 +216,20 @@ export default {
   },
 
   methods: {
+
+    checkLogin(){
+      if(this.$store.state.currentAdmin.logout_time != null){
+        if(Date.now() > this.$store.state.currentAdmin.logout_time){
+          this.$store.state.currentAdmin.username = '';
+          this.$store.state.currentAdmin.login_time = null;
+          this.$store.state.currentAdmin.logout_time = null;
+
+          this.$router.push("/");
+        }
+      }else{
+        this.$router.push("/");
+      }
+    },
 
     handleOK(){
       this.alertshow = false;

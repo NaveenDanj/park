@@ -10,6 +10,12 @@ export default new Vuex.Store({
       username : '',
       login_time : null,
       logout_time : null
+    },
+
+    currentAdmin : {
+      username : '',
+      login_time : null,
+      logout_time : null
     }
 
   },

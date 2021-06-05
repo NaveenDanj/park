@@ -117,8 +117,6 @@ export default {
         firebase.firestore().collection('users').doc(this.username).get()
         .then(doc => {
 
-          console.log(doc.data());
-
           if(doc.data().username == this.username && doc.data().password == this.password){
            
 

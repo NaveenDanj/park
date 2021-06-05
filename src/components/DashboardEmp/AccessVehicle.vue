@@ -270,22 +270,35 @@ export default {
     update_status(){
 
       if(this.fullname != null && this.update_status != null){
-        firebase.firestore().collection('access_list').doc(this.fullname).update({
-          status : this.updated_status
-        })
-        .then(() =>{
-          this.show = true;
-          this.message = 'Status updated successfully';
-        })
-        .catch(err => {
-          if(err.includes('No document to update')){
+
+        if(this.updated_status == 'Out Of Service'){
+
+          firebase.firestore().collection('access_list').doc(this.fullname).delete()
+          .then(() => {
             this.show = true;
-            this.message = 'Your access data might be deleted by the admin';
-          }else{
+            this.message = 'Status updated successfully';
+          })
+
+        }else{
+          firebase.firestore().collection('access_list').doc(this.fullname).update({
+            status : this.updated_status
+          })
+          .then(() =>{
             this.show = true;
-            this.message = '[Error Code 001] - Please contact tech team for more informations!';
-          }
-        })
+            this.message = 'Status updated successfully';
+          })
+          .catch(err => {
+            if(err.includes('No document to update')){
+              this.show = true;
+              this.message = 'Your access data might be deleted by the admin';
+            }else{
+              this.show = true;
+              this.message = '[Error Code 001] - Please contact tech team for more informations!';
+            }
+          })
+        }
+
+        
       }else{
         this.show = true;
         this.message = 'Please fill out all fields!';
