@@ -15,8 +15,8 @@
 
           <v-card-text>
             <v-text-field
-              v-model="email"
-              :rules="[() => !!email || 'This field is required']"
+              v-model="username"
+              :rules="[() => !!username || 'This field is required']"
               label="Email"
               placeholder="johndoe@gmail.com"
               required
@@ -54,7 +54,7 @@
 
             <v-spacer></v-spacer>
 
-            <v-btn class="ma-2" outlined color="success" large @click="submit"
+            <v-btn class="ma-2" outlined color="success" large @click="login"
               >Login</v-btn
             >
 
@@ -85,7 +85,7 @@ export default {
 
   data() {
     return {
-      email: "",
+      username: "",
       password: "",
       show: false,
       message: "",
@@ -106,21 +106,68 @@ export default {
   },
 
   methods: {
-    submit() {
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(this.email, this.password)
-        .then((userCredential) => {
-          let user = userCredential.user;
-          console.log(user);
-          this.$router.push("/dashemp");
+
+    login(){
+
+      if(this.password == '' || this.username == ''){
+        this.show = true;
+        this.message = 'Please fill out all the fields';
+      }else{
+
+        firebase.firestore().collection('users').doc(this.username).get()
+        .then(doc => {
+
+          console.log(doc.data());
+
+          if(doc.data().username == this.username && doc.data().password == this.password){
+           
+
+            let now_timestamp = Date.now();
+            let expire_timestamp = now_timestamp + 5000;
+
+            console.log(now_timestamp , expire_timestamp);
+
+            this.$store.state.currentUser.username = this.username;
+            this.$store.state.currentUser.login_time = now_timestamp;
+            this.$store.state.currentUser.logout_time = expire_timestamp;
+
+            this.show = true;
+            this.message = 'You are logged in!';
+
+            this.$router.push("/dashemp");
+
+          }else{
+
+            this.show = true;
+            this.message = 'Username or password is incorrect!';
+
+          }
+
         })
-        .catch((error) => {
-          var errorMessage = error.message;
+        .catch(() => {
           this.show = true;
-          this.message = errorMessage;
-        });
+          this.message = 'Username or password is incorrect!';
+        })
+
+      }
+
     },
+
+    // submit() {
+    //   firebase
+    //     .auth()
+    //     .signInWithEmailAndPassword(this.email, this.password)
+    //     .then((userCredential) => {
+    //       let user = userCredential.user;
+    //       console.log(user);
+    //       this.$router.push("/dashemp");
+    //     })
+    //     .catch((error) => {
+    //       var errorMessage = error.message;
+    //       this.show = true;
+    //       this.message = errorMessage;
+    //     });
+    // },
 
     handleOK() {
       this.show = false;

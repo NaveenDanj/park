@@ -59,9 +59,10 @@
           <v-spacer></v-spacer>
 
 
-          <v-btn class="ma-2" outlined color="success" large @click="submit">Submit</v-btn>
+          <v-btn class="ma-2" outlined color="success" large @click="submit">Login</v-btn>
         </v-card-actions>
 
+        <AlertBox :show="show" :showError="message" @clickOK="handleOK" />
 
       </v-card>
     </v-col>
@@ -69,20 +70,35 @@
 </template>
 
 <script>
+import AlertBox from "../components/DialogBox/Alertbox.vue";
+
 export default {
   
   name: "AdminLogin",
 
+  components : {
+    AlertBox
+  },
+
   data(){
     return {
       username : '',
-      password : ''
+      password : '',
+      show: false,
+      message: "",
     }
   },
 
   methods :{
     submit(){
-      console.log('clicked')
+      if(this.username == '' || this.password == ""){
+        this.show = true;
+        this.message = "Please fill out all the fields!";
+      }
+    },
+
+    handleOK(){
+      this.show = false;
     }
   }
   

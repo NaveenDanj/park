@@ -67,16 +67,24 @@ export default {
     logged_in: false,
   }),
 
-  created() {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        let uid = user.uid;
-        this.logged_in = true;
-        console.log(uid);
+  updated(){
+    
+    if(this.$store.state.currentUser.logout_time != null){
+      if(Date.now() > this.$store.state.currentUser.logout_time){
+        console.log('logout');
+        this.$store.state.currentUser.username = '';
+        this.$store.state.currentUser.login_time = null;
+        this.$store.state.currentUser.logout_time = null;
       }
+    }
+  
+  },
 
-      this.loading = false;
-    });
+  created() {
+    if (this.$store.state.currentUser.username != '') {
+      this.logged_in = true;
+    }
+    this.loading = false;
   },
 
   methods: {
@@ -85,7 +93,7 @@ export default {
     },
 
     adminlogin() {
-      this.$router.push("/dashadmin");
+      this.$router.push("/adminlogin");
     },
 
     handleSignOut() {

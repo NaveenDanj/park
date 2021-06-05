@@ -7,9 +7,9 @@ export default new Vuex.Store({
   state: {
 
     currentUser : {
-      userObj : null,
-      userid : '',
-      access_level : ''
+      username : '',
+      login_time : null,
+      logout_time : null
     }
 
   },

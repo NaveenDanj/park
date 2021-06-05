@@ -58,7 +58,6 @@
         label="Status"
       ></v-autocomplete>
     </v-card-text>
-    <v-divider></v-divider>
 
     <v-card-actions>
       <v-btn :disabled="!isEditing" color="warning" x-large @click="cancel">
@@ -69,6 +68,46 @@
         Submit
       </v-btn>
     </v-card-actions>
+
+
+    <v-divider></v-divider><br/>
+    <v-card-text>
+
+      <v-row>
+
+          <v-col cols="12" md="4">
+            <v-select
+              v-model="fullname"
+              :items="names"
+              label="Select Username"
+              outlined
+            ></v-select>
+          </v-col>
+
+          <v-col cols="12" md="4">
+
+           <v-select
+              v-model="updated_status"
+              :items="status_list"
+              color="white"
+              item-text="name"
+              label="Status"
+            ></v-select>
+
+          </v-col>
+
+          <v-col cols="12" md="4">
+            <v-btn color="success" @click="update_status">
+              Update Status
+            </v-btn>
+          </v-col>
+
+        </v-row>
+
+      </v-card-text>
+
+
+
 
     <v-snackbar v-model="hasSaved" :timeout="2000" absolute bottom left>
       New Access Vehicle Created
@@ -90,6 +129,20 @@ export default {
   created() {
     this.vehicle_list = [];
     this.status_list = [];
+
+    firebase.firestore().collection('access_list').get()
+    .then(snap => {
+      snap.forEach(doc => {
+        this.names.push(doc.data().fname + '_' + doc.data().lname);
+      })
+    })
+
+    firebase.firestore().collection('access_list')
+    .onSnapshot((newSnap) => {
+      newSnap.forEach((doc) => {
+        this.names.push(doc.data().fname + '_' + doc.data().lname);
+      });
+    });
 
     firebase
       .firestore()
@@ -130,6 +183,9 @@ export default {
       model: null,
       status_list: [],
       vehicle_list: [],
+      names : [],
+      fullname : null,
+      updated_status : null,
 
       fname: "",
       lname: "",
@@ -137,10 +193,41 @@ export default {
       status: null,
       show : false,
       message : '',
+
     };
   },
 
   methods: {
+
+    get_today_date(){
+
+      const d = new Date();
+      const year = d.getFullYear();
+      const month = (d.getMonth() + 1).toString().length == 2 ? d.getMonth() + 1 : "0" + (d.getMonth() + 1).toString();
+      const date = d.getDate();
+      return year.toString() + "-" + month + "-" + date.toString();
+
+    },
+
+    get_today_time(){
+      const today = new Date();
+      let mins;
+      let seconds = today.getSeconds().toString();
+
+      if(today.getMinutes().toString().length < 2){
+          mins =  "0" + today.getMinutes().toString();
+      }else{
+          mins = today.getMinutes().toString();
+      }
+
+      if(seconds.length < 2){
+          seconds = '0' + today.getSeconds().toString();
+      }
+
+      return today.getHours() + ":" + mins + ":" + seconds;
+
+    },
+
 
     save() {
 
@@ -159,7 +246,7 @@ export default {
                     fname : this.fname,
                     lname : this.lname,
                     status : this.status,
-                    time : new Date(Date.now()),
+                    time : this.get_today_date() + " " + this.get_today_time(),
                     type : this.type
                 })
                 .then(() => {
@@ -178,6 +265,33 @@ export default {
         
       }
         
+    },
+
+    update_status(){
+
+      if(this.fullname != null && this.update_status != null){
+        firebase.firestore().collection('access_list').doc(this.fullname).update({
+          status : this.updated_status
+        })
+        .then(() =>{
+          this.show = true;
+          this.message = 'Status updated successfully';
+        })
+        .catch(err => {
+          if(err.includes('No document to update')){
+            this.show = true;
+            this.message = 'Your access data might be deleted by the admin';
+          }else{
+            this.show = true;
+            this.message = '[Error Code 001] - Please contact tech team for more informations!';
+          }
+        })
+      }else{
+        this.show = true;
+        this.message = 'Please fill out all fields!';
+      }
+
+      
     },
 
     handleOK(){

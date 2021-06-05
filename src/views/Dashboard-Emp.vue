@@ -1,5 +1,5 @@
-<template>
-  <div>
+<template >
+  <div @click="checkLogin">
     <div v-if="loading">
       <h4>Loading...</h4>
     </div>
@@ -13,20 +13,20 @@
             <v-spacer></v-spacer>
 
             <v-tab>Access Vehicle</v-tab>
-            <v-tab>Change status</v-tab>
-            <v-tab>Complete Acess</v-tab>
+            <!-- <v-tab>Change status</v-tab>
+            <v-tab>Complete Acess</v-tab> -->
 
             <v-tab-item> 
                 <AccessVehicle/>
             </v-tab-item>
 
-            <v-tab-item > 
+            <!-- <v-tab-item > 
                 <ChangeStatus/>
             </v-tab-item>
 
             <v-tab-item > 
                 <CompleteAccess/>
-            </v-tab-item>
+            </v-tab-item> -->
           </v-tabs>
         </v-card>
       </v-col>
@@ -35,16 +35,36 @@
 </template>
 
 <script>
-import firebase from "firebase";
+// import firebase from "firebase";
 import AccessVehicle from "../components/DashboardEmp/AccessVehicle.vue";
-import ChangeStatus from "../components/DashboardEmp/ChnageStatus.vue";
-import CompleteAccess from "../components/DashboardEmp/CompleteAccess.vue";
+// import ChangeStatus from "../components/DashboardEmp/ChnageStatus.vue";
+// import CompleteAccess from "../components/DashboardEmp/CompleteAccess.vue";
 
 export default {
   components: {
     AccessVehicle,
-    ChangeStatus,
-    CompleteAccess
+    // ChangeStatus,
+    // CompleteAccess
+  },
+
+  beforeUpdate(){
+    console.log('done');
+  },
+
+  updated(){
+    console.log('nn');
+    if(this.$store.state.currentUser.logout_time != null){
+      if(Date.now() > this.$store.state.currentUser.logout_time){
+        this.$store.state.currentUser.username = '';
+        this.$store.state.currentUser.login_time = null;
+        this.$store.state.currentUser.logout_time = null;
+
+        this.$router.push("/");
+      }
+    }else{
+      this.$router.push("/");
+    }
+  
   },
 
   data() {
@@ -58,6 +78,21 @@ export default {
   },
 
   methods: {
+
+    checkLogin(){
+      if(this.$store.state.currentUser.logout_time != null){
+        if(Date.now() > this.$store.state.currentUser.logout_time){
+          this.$store.state.currentUser.username = '';
+          this.$store.state.currentUser.login_time = null;
+          this.$store.state.currentUser.logout_time = null;
+
+          this.$router.push("/");
+        }
+      }else{
+        this.$router.push("/");
+      }
+    },
+
     customFilter(item, queryText) {
       const textOne = item.name.toLowerCase();
       const textTwo = item.abbr.toLowerCase();
@@ -80,15 +115,23 @@ export default {
   },
 
   created() {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        let uid = user.uid;
-        console.log(uid);
-        this.loading = false;
-      } else {
-        this.$router.push("/");
-      }
-    });
+    // firebase.auth().onAuthStateChanged((user) => {
+    //   if (user) {
+    //     let uid = user.uid;
+    //     console.log(uid);
+    //     this.loading = false;
+    //   } else {
+    //     this.$router.push("/");
+    //   }
+    // });
+
+    if(this.$store.state.currentUser.username != ''){
+      this.loading = false;
+    }else{
+      this.$router.push("/");
+    }
+
+
   },
 };
 </script>
