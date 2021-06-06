@@ -140,7 +140,7 @@ export default {
 
   methods: {
     cancel() {
-      true;
+      this.status_name = null;
     },
 
     handleOK() {

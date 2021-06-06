@@ -127,7 +127,7 @@ export default {
   data() {
     return {
       status_name: null,
-      loading: true,
+      loading: false,
       show: false,
       message: "",
       status_items: [],
@@ -137,7 +137,7 @@ export default {
 
   methods: {
     cancel() {
-      true;
+      this.status_name = null;
     },
 
     handleOK() {
