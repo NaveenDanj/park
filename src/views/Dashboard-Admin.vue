@@ -34,6 +34,15 @@
                 @change="filterItems"
               ></v-select>
 
+              <v-select
+                :items="vehicle_list"
+                label="Filter By Vehicle Type"
+                v-model="vehicle_type"
+                outlined
+                class="ml-5 mr-5"
+                @change="filterItemsType"
+              ></v-select>
+
               <v-btn color="red" x-large @click="ask_sure" class="ml-5 mb-3 mr-5 white--text">
                 Remove
               </v-btn>
@@ -130,7 +139,7 @@
               <ManageTypes />
             </v-tab-item>
 
-            
+
           </v-tabs>
         </v-card>
       </v-col>
@@ -168,6 +177,29 @@ export default {
     }else{
       this.$router.push("/");
     }
+
+    firebase
+      .firestore()
+      .collection("vehicle_type")
+      .get()
+      .then((snap) => {
+        snap.forEach((doc) => {
+          this.vehicle_list.push(doc.data());
+        });
+      });
+
+    firebase
+      .firestore()
+      .collection("vehicle_type")
+      .onSnapshot((snap) => {
+        this.vehicle_list = ["All"];
+
+        snap.forEach((item) => {
+          this.vehicle_list.push(item.data().name);
+        });
+    });
+
+
 
 
     this.item_list = [];
@@ -218,6 +250,8 @@ export default {
       selected : [],
       status_list : ['All'],
       merge_list : [],
+      vehicle_list : ['All'],
+      vehicle_type : null,
 
       alertshow : false,
       message : '',
@@ -399,6 +433,46 @@ export default {
       }
 
       
+    },
+
+    filterItemsType(){
+
+      if(this.vehicle_type == 'All'){
+
+        this.item_list = [];
+
+        this.loading = true;
+
+        firebase
+        .firestore()
+        .collection("access_list")
+        .get()
+        .then((snap) => {
+          snap.forEach((doc) => {
+            this.item_list.push(doc.data());
+          });
+
+          this.loading = false;
+        });
+
+      }else{
+        this.item_list = [];
+        this.loading = true;
+        firebase.firestore().collection("access_list").where("type" , "==" , this.vehicle_type)
+        .get()
+        .then(snap =>{
+          snap.forEach(doc => {
+            this.item_list.push(doc.data());
+          });
+
+          this.loading = false;
+        });
+        
+
+        
+        
+      }
+
     },
 
     deleteItem(id){
