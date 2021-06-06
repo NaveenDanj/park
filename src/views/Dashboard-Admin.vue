@@ -18,7 +18,7 @@
             <v-spacer></v-spacer>
 
             <v-tab>All Vehicles</v-tab>
-            <v-tab>Add New Status</v-tab>
+            <v-tab>Manage Status</v-tab>
             <v-tab>Add New Type</v-tab>
 
             <v-tab-item>
@@ -122,9 +122,15 @@
               </v-card>
             </v-tab-item>
 
-            <v-tab-item> ASD </v-tab-item>
+            <v-tab-item>
+              <ManageStatus />
+            </v-tab-item>
 
-            <v-tab-item> ASD </v-tab-item>
+            <v-tab-item>
+              <ManageTypes />
+            </v-tab-item>
+
+            
           </v-tabs>
         </v-card>
       </v-col>
@@ -144,10 +150,15 @@ import 'firebase/firestore';
 import Comfirm from '../components/DialogBox/Comfirm.vue'
 import AlertBox from '../components/DialogBox/Alertbox.vue'
 
+import ManageStatus from '../components/DashboardAdmin/ManageStatus.vue'
+import ManageTypes from '../components/DashboardAdmin/ManageTypes.vue'
+
 export default {
   components: {
     Comfirm,
-    AlertBox
+    AlertBox,
+    ManageStatus,
+    ManageTypes
   },
 
   created() {
@@ -173,6 +184,7 @@ export default {
         this.loading = false;
 
       });
+
 
     firebase
       .firestore()
@@ -224,10 +236,10 @@ export default {
           this.$store.state.currentAdmin.login_time = null;
           this.$store.state.currentAdmin.logout_time = null;
 
-          this.$router.push("/");
+          this.$router.push("/adminlogin");
         }
       }else{
-        this.$router.push("/");
+        this.$router.push("/adminlogin");
       }
     },
 
