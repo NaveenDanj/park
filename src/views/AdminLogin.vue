@@ -104,7 +104,7 @@ export default {
           if(doc.data().username == this.username && doc.data().password == this.password){
 
             let now_timestamp = Date.now();
-            let expire_timestamp = now_timestamp + (1000 * 60 * 5);
+            let expire_timestamp = now_timestamp + (1000 * 60 * 60);
 
             console.log(now_timestamp , expire_timestamp);
 
