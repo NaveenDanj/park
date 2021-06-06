@@ -7,7 +7,7 @@
     <v-row v-else justify="center" class="mt-10">
       <v-col cols="12" sm="10" md="8" lg="10">
         <v-card>
-          <v-tabs background-color="blue" class="white--text" color="deep-purple accent-4" right>
+          <v-tabs background-color="#FFFFFF" class="white--text" color="deep-purple accent-4" right>
             <!-- <v-card-title> Employee Controle </v-card-title> -->
 
             <v-spacer></v-spacer>

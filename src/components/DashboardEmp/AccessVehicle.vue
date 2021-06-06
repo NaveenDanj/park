@@ -2,10 +2,10 @@
   <v-card
     class="overflow-hidden"
     min-height="500"
-    color="purple lighten-1"
-    dark
+    color="white"
+    
   >
-    <v-toolbar flat color="purple">
+    <v-toolbar flat color="#0036d9">
       <v-icon>mdi-account</v-icon>
       <v-toolbar-title class="font-weight-light ml-3">
         Access A Vehicle</v-toolbar-title
@@ -25,7 +25,7 @@
             :rules="[() => !!fname || 'This field is required']"
             :disabled="!isEditing"
             color="white"
-            label="First Name"
+            label="Voornaam"
           ></v-text-field>
         </v-col>
 
@@ -35,7 +35,7 @@
             :rules="[() => !!fname || 'This field is required']"
             :disabled="!isEditing"
             color="white"
-            label="Last Name"
+            label="Achternaam"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -46,7 +46,7 @@
         :items="vehicle_list"
         color="white"
         item-text="name"
-        label="Vehicle Type"
+        label="Type voertuig"
       ></v-autocomplete>
 
       <v-autocomplete
@@ -61,11 +61,11 @@
 
     <v-card-actions>
       <v-btn :disabled="!isEditing" color="warning" x-large @click="cancel">
-        Cancel
+        Annuleren
       </v-btn>
       <v-spacer></v-spacer>
       <v-btn :disabled="!isEditing" color="success" x-large @click="save">
-        Submit
+        Indienen
       </v-btn>
     </v-card-actions>
 
