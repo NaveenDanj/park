@@ -8,18 +8,17 @@
       <v-col cols="12" sm="10" md="8" lg="10">
         <v-card>
           <v-tabs
-            background-color="blue"
+            background-color="#0036D9"
             class="white--text"
-            color="deep-purple accent-4"
             right
             
           >
 
             <v-spacer></v-spacer>
 
-            <v-tab>All Vehicles</v-tab>
-            <v-tab>Manage Status</v-tab>
-            <v-tab>Add New Type</v-tab>
+            <v-tab>Alle voertuigen</v-tab>
+            <v-tab>Nieuwe Status</v-tab>
+            <v-tab>Nieuwe voertuig</v-tab>
 
             <v-tab-item>
 
@@ -27,7 +26,7 @@
 
               <v-select
                 :items="status_list"
-                label="Filter By Status"
+                label="Filter op Status"
                 v-model="filter_type"
                 outlined
                 class="mt-5 ml-5 mr-5"
@@ -36,7 +35,7 @@
 
               <v-select
                 :items="vehicle_list"
-                label="Filter By Vehicle Type"
+                label="Filter op Vehicle Type"
                 v-model="vehicle_type"
                 outlined
                 class="ml-5 mr-5"

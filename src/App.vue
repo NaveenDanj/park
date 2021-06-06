@@ -1,8 +1,8 @@
 <template>
   <v-app>
     <div v-if="!loading">
-      <v-app-bar color="deep-purple accent-4" dense dark>
-        <v-toolbar-title>Vehicle Management System</v-toolbar-title>
+      <v-app-bar color="#FFC926" dense dark>
+        <v-toolbar-title><b>TDA ANWB Aanmeldsysteem</b></v-toolbar-title>
 
         <v-spacer></v-spacer>
 
