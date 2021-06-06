@@ -16,9 +16,9 @@
 
             <v-spacer></v-spacer>
 
-            <v-tab>Alle voertuigen</v-tab>
-            <v-tab>Nieuwe Status</v-tab>
-            <v-tab>Nieuwe voertuig</v-tab>
+            <v-tab class="white--text">Alle voertuigen</v-tab>
+            <v-tab class="white--text">Nieuwe Status</v-tab>
+            <v-tab class="white--text">Nieuwe voertuig</v-tab>
 
             <v-tab-item>
 
