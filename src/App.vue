@@ -5,16 +5,39 @@
         <v-toolbar-title><b>TDA ANWB Aanmeldsysteem</b></v-toolbar-title>
 
         <v-spacer></v-spacer>
+         <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <!-- <v-btn
+                color="primary"
+                dark
+                v-bind="attrs"
+                v-on="on"
+              >Button</v-btn> -->
 
-        <v-btn icon large class="mr-5" @click="employee">
-          <v-icon>mdi-account</v-icon>
-        </v-btn>
+              <v-btn v-on="on"  v-bind="attrs" icon large class="mr-5" @click="employee">
+                <v-icon>mdi-account</v-icon>
+              </v-btn>
 
-        <v-btn icon large @click="adminlogin" class="mr-5">
-          <v-icon>mdi-account-key </v-icon>
-        </v-btn>
 
-        <v-menu left bottom>
+            </template>
+            <span>Employee / Logout</span>
+          </v-tooltip>
+
+
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+
+              <v-btn v-on="on"  v-bind="attrs" icon large @click="adminlogin" class="mr-5">
+                <v-icon>mdi-account-key </v-icon>
+              </v-btn>
+
+
+            </template>
+            <span>Admin / Logout</span>
+          </v-tooltip>
+        
+
+        <!-- <v-menu left bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on">
               <v-icon>mdi-dots-vertical</v-icon>
@@ -30,7 +53,7 @@
               <v-list-item-title>Sign Out</v-list-item-title>
             </v-list-item>
           </v-list>
-        </v-menu>
+        </v-menu> -->
 
         <Drawer />
       </v-app-bar>

@@ -26,7 +26,7 @@
 
 export default {
     name : 'AlertBox',
-    props: ['showError' , 'show'],
+    props: ['showError' , 'show' , 'color'],
 
     methods : {
         handleOK(){

@@ -6,15 +6,12 @@
     
   >
     <v-toolbar flat color="#0036d9">
-      <v-icon>mdi-account</v-icon>
-      <v-toolbar-title class="font-weight-light ml-3">
+      <v-icon class="white--text">mdi-account</v-icon>
+      <v-toolbar-title class="font-weight-light ml-3 white--text">
         Access A Vehicle</v-toolbar-title
       >
       <v-spacer></v-spacer>
-      <v-btn color="purple darken-3" fab small @click="isEditing = !isEditing">
-        <v-icon v-if="isEditing">mdi-close</v-icon>
-        <v-icon v-else>mdi-pencil</v-icon>
-      </v-btn>
+      
     </v-toolbar>
 
     <v-card-text>
@@ -22,6 +19,7 @@
         <v-col cols="12" md="6">
           <v-text-field
             v-model="fname"
+            solo
             :rules="[() => !!fname || 'This field is required']"
             :disabled="!isEditing"
             color="white"
@@ -32,6 +30,7 @@
         <v-col cols="12" md="6">
           <v-text-field
             v-model="lname"
+            solo
             :rules="[() => !!fname || 'This field is required']"
             :disabled="!isEditing"
             color="white"
@@ -42,6 +41,7 @@
 
       <v-autocomplete
         :disabled="!isEditing"
+        solo
         v-model="type"
         :items="vehicle_list"
         color="white"
@@ -51,6 +51,7 @@
 
       <v-autocomplete
         :disabled="!isEditing"
+        solo
         v-model="status"
         :items="status_list"
         color="white"
@@ -180,7 +181,7 @@ export default {
     return {
       loading: true,
       hasSaved: false,
-      isEditing: null,
+      isEditing: true,
       model: null,
       status_list: [],
       vehicle_list: [],
@@ -244,14 +245,14 @@ export default {
 
       if (this.fname == "" || this.lname == "" || this.type == null || this.status == null){
         this.show = true;
-        this.message = 'Please Fill all the fields';
+        this.message = 'Fields cannot be empty';
       }else{
         
         firebase.firestore().collection('access_list').doc(this.fname +'_' + this.lname).get()
         .then(check => {
             if(check.exists){
                 this.show = true;
-                this.message = 'Please Finish your last access'; 
+                this.message = 'You have already submitted this status'; 
             }else{
                 firebase.firestore().collection('access_list').doc(this.fname +'_' + this.lname).set({
                     fname : this.fname,
@@ -261,11 +262,18 @@ export default {
                     type : this.type
                 })
                 .then(() => {
-                    console.log("Document successfully written!");
-                    this.show = true;
-                    this.message = 'Your Vehicle Data Saved!';
-                    this.isEditing = !this.isEditing;
-                    this.hasSaved = true;
+
+                  console.log("Document successfully written!");
+                  this.show = true;
+                  this.message = 'Your Vehicle Data Saved!';
+                  // this.isEditing = !this.isEditing;
+                  this.hasSaved = true;
+
+                  this.fname = null;
+                  this.lname = null;
+                  this.status = null;
+                  this.type = null;
+
                 })
                 .catch((error) => {
                     console.error("Error writing document: ", error);
@@ -292,8 +300,6 @@ export default {
           })
 
         }else{
-
-          console.log(this.fullname);
 
           firebase.firestore().collection('access_list').doc(this.fullname).get()
           .then(document => {

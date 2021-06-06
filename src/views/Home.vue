@@ -1,6 +1,6 @@
-<template>
+<template >
   <v-form>
-  <v-row justify="center" class="mt-10">
+  <v-row @keydown.enter="login" justify="center" class="mt-10">
       <v-col v-if="!loading" cols="12" sm="10" md="8" lg="6">
         <v-card ref="form">
           
@@ -17,8 +17,9 @@
             <v-text-field
               v-model="username"
               :rules="[() => !!username || 'This field is required']"
-              label="Email"
+              label="Username"
               placeholder="johndoe@gmail.com"
+              @keydown.enter="login"
               required
             ></v-text-field
             ><br />
@@ -29,28 +30,17 @@
               type="password"
               :rules="[() => !!password || 'This field is required']"
               label="Password"
-              placeholder="John Doe"
+              placeholder="Password"
+              @keydown.enter="login"
               required
             ></v-text-field>
 
-            <!-- <v-text-field
-            ref="address"
-            v-model="address"
-            :rules="[
-              () => !!address || 'This field is required',
-              () => !!address && address.length <= 25 || 'Address must be less than 25 characters',
-              addressCheck
-            ]"
-            label="Address Line"
-            placeholder="Snowy Rock Pl"
-            counter="25"
-            required
-          ></v-text-field> -->
+            
           </v-card-text>
 
           <v-divider class="mt-12"></v-divider>
           <v-card-actions>
-            <v-btn class="ma-2" outlined color="warning" large>Cancel</v-btn>
+            <v-btn class="ma-2" outlined color="warning" @click="clear" large>Clear</v-btn>
 
             <v-spacer></v-spacer>
 
@@ -107,11 +97,16 @@ export default {
 
   methods: {
 
+    clear(){
+      this.username = '';
+      this.password = '';
+    },
+
     login(){
 
       if(this.password == '' || this.username == ''){
         this.show = true;
-        this.message = 'Please fill out all the fields';
+        this.message = 'Fields cannot be empty';
       }else{
 
         firebase.firestore().collection('users').doc(this.username).get()

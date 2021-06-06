@@ -23,6 +23,7 @@
             :rules="[() => !!username || 'This field is required']"
             label="Admin Username"
             placeholder="John Doe"
+            @keydown.enter="submit"
             required
           ></v-text-field><br/>
 
@@ -30,32 +31,18 @@
             v-model="password"
             :rules="[() => !!password || 'This field is required']"
             label="Admin Password"
-            placeholder="John Doe"
+            placeholder="Password"
             type="password"
+            @keydown.enter="submit"
             required
           ></v-text-field>
-
-          <!-- <v-text-field
-            ref="address"
-            v-model="address"
-            :rules="[
-              () => !!address || 'This field is required',
-              () => !!address && address.length <= 25 || 'Address must be less than 25 characters',
-              addressCheck
-            ]"
-            label="Address Line"
-            placeholder="Snowy Rock Pl"
-            counter="25"
-            required
-          ></v-text-field> -->
-
 
         </v-card-text>
 
         <v-divider class="mt-12"></v-divider>
         <v-card-actions>
 
-          <v-btn class="ma-2" outlined color="warning" large >Cancel</v-btn>
+          <v-btn class="ma-2" @click="clear" outlined color="warning" large >Clear</v-btn>
 
           <v-spacer></v-spacer>
 
@@ -92,10 +79,16 @@ export default {
   },
 
   methods :{
+
+    clear(){
+      this.username = '';
+      this.password = '';
+    },
+
     submit(){
       if(this.username == '' || this.password == ""){
         this.show = true;
-        this.message = "Please fill out all the fields!";
+        this.message = "Fields cannot be empty";
       }else{
 
         firebase.firestore().collection('admins').doc(this.username).get()

@@ -7,27 +7,7 @@
     <v-row v-else justify="center" class="mt-10">
       <v-col cols="12" sm="10" md="8" lg="10">
         <v-card>
-          <v-tabs background-color="#FFFFFF" class="white--text" color="deep-purple accent-4" right>
-            <!-- <v-card-title> Employee Controle </v-card-title> -->
-
-            <v-spacer></v-spacer>
-
-            <v-tab>Access Vehicle</v-tab>
-            <!-- <v-tab>Change status</v-tab>
-            <v-tab>Complete Acess</v-tab> -->
-
-            <v-tab-item> 
-                <AccessVehicle/>
-            </v-tab-item>
-
-            <!-- <v-tab-item > 
-                <ChangeStatus/>
-            </v-tab-item>
-
-            <v-tab-item > 
-                <CompleteAccess/>
-            </v-tab-item> -->
-          </v-tabs>
+          <AccessVehicle/>
         </v-card>
       </v-col>
     </v-row>
