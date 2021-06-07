@@ -199,7 +199,7 @@ export default {
           });
       } else {
         this.show = true;
-        this.message = "Please fill out required field!";
+        this.message = "Fields cannot be empty";
       }
     },
   },

@@ -11,15 +11,10 @@
         dark
       >
         <v-toolbar flat color="purple">
-          <!-- <v-icon>mdi-account</v-icon> -->
           <v-toolbar-title class="font-weight-light ml-3">
             Manage Vehicle Types</v-toolbar-title
           >
           <v-spacer></v-spacer>
-          <!-- <v-btn color="purple darken-3" fab small @click="isEditing = !isEditing">
-        <v-icon v-if="isEditing">mdi-close</v-icon>
-        <v-icon v-else>mdi-pencil</v-icon>
-      </v-btn> -->
         </v-toolbar>
 
         <v-card-text>
@@ -202,7 +197,7 @@ export default {
           });
       } else {
         this.show = true;
-        this.message = "Please fill out required field!";
+        this.message = "Fields cannot be empty";
       }
     },
   },
