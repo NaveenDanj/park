@@ -8,6 +8,8 @@ export default new Vuex.Store({
 
     currentUser : {
       username : '',
+      fname : '',
+      lname : '',
       login_time : null,
       logout_time : null
     },

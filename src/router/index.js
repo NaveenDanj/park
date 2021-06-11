@@ -21,7 +21,7 @@ const routes = [
   },
   {
     path: '/dashadmin',
-    name: 'EmployeeDash',
+    name: 'AdminDash',
     component: () => import(/* webpackChunkName: "about" */ '../views/Dashboard-Admin.vue')
   }
 ]

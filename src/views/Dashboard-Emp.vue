@@ -36,6 +36,8 @@ export default {
     if(this.$store.state.currentUser.logout_time != null){
       if(Date.now() > this.$store.state.currentUser.logout_time){
         this.$store.state.currentUser.username = '';
+        this.$store.state.currentUser.fname = '';
+        this.$store.state.currentUser.lname = '';
         this.$store.state.currentUser.login_time = null;
         this.$store.state.currentUser.logout_time = null;
 
@@ -62,6 +64,8 @@ export default {
     checkLogin(){
       if(this.$store.state.currentUser.logout_time != null){
         if(Date.now() > this.$store.state.currentUser.logout_time){
+          this.$store.state.currentUser.fname = '';
+          this.$store.state.currentUser.lname = '';
           this.$store.state.currentUser.username = '';
           this.$store.state.currentUser.login_time = null;
           this.$store.state.currentUser.logout_time = null;

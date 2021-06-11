@@ -132,6 +132,11 @@ export default {
     this.status_list = [];
     this.names = [];
 
+
+    this.fname = this.$store.state.currentUser.fname;
+    this.lname = this.$store.state.currentUser.lname;
+
+
     firebase.firestore().collection('access_list').get()
     .then(snap => {
       snap.forEach(doc => {
@@ -175,6 +180,9 @@ export default {
           this.status_list.push(doc.data().name);
         });
       });
+
+
+    
   },
 
   data() {
@@ -263,7 +271,6 @@ export default {
                 })
                 .then(() => {
 
-                  console.log("Document successfully written!");
                   this.show = true;
                   this.message = 'Your Vehicle Data Saved!';
                   // this.isEditing = !this.isEditing;
@@ -273,6 +280,9 @@ export default {
                   this.lname = null;
                   this.status = null;
                   this.type = null;
+
+                  this.fname = this.$store.state.currentUser.fname;
+                  this.lname = this.$store.state.currentUser.lname;
 
                 })
                 .catch((error) => {

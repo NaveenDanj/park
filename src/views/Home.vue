@@ -109,8 +109,12 @@ export default {
         this.message = 'Fields cannot be empty';
       }else{
 
+        console.log('the data is ' , this.username , this.password);
+
         firebase.firestore().collection('users').doc(this.username).get()
         .then(doc => {
+
+          console.log('the data is ' , doc);
 
           if(doc.data().username == this.username && doc.data().password == this.password){
            
@@ -121,6 +125,8 @@ export default {
             console.log(now_timestamp , expire_timestamp);
 
             this.$store.state.currentUser.username = this.username;
+            this.$store.state.currentUser.fname = doc.data().fname;
+            this.$store.state.currentUser.lname = doc.data().lname;
             this.$store.state.currentUser.login_time = now_timestamp;
             this.$store.state.currentUser.logout_time = expire_timestamp;
 
