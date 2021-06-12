@@ -19,6 +19,7 @@
             <v-tab class="white--text">Alle voertuigen</v-tab>
             <v-tab class="white--text">Nieuwe Status</v-tab>
             <v-tab class="white--text">Nieuwe voertuig</v-tab>
+            <v-tab class="white--text">Manage Users</v-tab>
 
             <v-tab-item>
 
@@ -138,6 +139,10 @@
               <ManageTypes />
             </v-tab-item>
 
+            <v-tab-item>
+              <ManageUsers />
+            </v-tab-item>
+
 
           </v-tabs>
         </v-card>
@@ -160,13 +165,17 @@ import AlertBox from '../components/DialogBox/Alertbox.vue'
 
 import ManageStatus from '../components/DashboardAdmin/ManageStatus.vue'
 import ManageTypes from '../components/DashboardAdmin/ManageTypes.vue'
+import ManageUsers from '../components/DashboardAdmin/AddNewUser.vue'
+
+
 
 export default {
   components: {
     Comfirm,
     AlertBox,
     ManageStatus,
-    ManageTypes
+    ManageTypes,
+    ManageUsers
   },
 
   created() {
