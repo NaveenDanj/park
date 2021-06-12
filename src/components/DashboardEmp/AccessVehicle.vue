@@ -21,7 +21,7 @@
             v-model="fname"
             solo
             :rules="[() => !!fname || 'This field is required']"
-            :disabled="!isEditing"
+            :disabled="true"
             color="white"
             label="Voornaam"
           ></v-text-field>
@@ -32,7 +32,7 @@
             v-model="lname"
             solo
             :rules="[() => !!fname || 'This field is required']"
-            :disabled="!isEditing"
+            :disabled="true"
             color="white"
             label="Achternaam"
           ></v-text-field>
