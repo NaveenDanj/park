@@ -140,14 +140,41 @@ export default {
     firebase.firestore().collection('access_list').get()
     .then(snap => {
       snap.forEach(doc => {
-        this.names.push(doc.id);
+
+        if(doc.data().merge == false || !doc.data().merge){
+
+          if(doc.data().fname == this.$store.state.currentUser.fname && doc.data().lname == this.$store.state.currentUser.lname){
+            this.names.push(doc.id);
+          }
+
+        }else{
+
+          if( doc.data().name1 == this.$store.state.currentUser.fname + " " + this.$store.state.currentUser.lname || doc.data().name2 == this.$store.state.currentUser.fname + " " + this.$store.state.currentUser.lname){
+            this.names.push(doc.id);
+          }
+
+        }
+
+        
       })
     })
 
     firebase.firestore().collection('access_list')
     .onSnapshot((newSnap) => {
       newSnap.forEach((doc) => {
-        this.names.push(doc.id);
+        
+        if(doc.data().merge == false || !doc.data().merge){
+
+          if(doc.data().fname == this.$store.state.currentUser.fname && doc.data().lname == this.$store.state.currentUser.lname){
+            this.names.push(doc.id);
+          }
+
+        }else{
+          if( doc.data().name1 == this.$store.state.currentUser.fname + " " + this.$store.state.currentUser.lname || doc.data().name2 == this.$store.state.currentUser.fname + " " + this.$store.state.currentUser.lname){
+            this.names.push(doc.id);
+          }
+        }
+
       });
     });
 
@@ -214,7 +241,19 @@ export default {
       firebase.firestore().collection('access_list').get()
       .then(snap => {
         snap.forEach(doc => {
-          this.names.push(doc.id);
+          
+          if(doc.data().merge == false || !doc.data().merge){
+
+            if(doc.data().fname == this.$store.state.currentUser.fname && doc.data().lname == this.$store.state.currentUser.lname){
+              this.names.push(doc.id);
+            }
+
+          }else{
+            if( doc.data().name1 == this.$store.state.currentUser.fname + " " + this.$store.state.currentUser.lname || doc.data().name2 == this.$store.state.currentUser.fname + " " + this.$store.state.currentUser.lname){
+              this.names.push(doc.id);
+            }
+          }
+
         })
       })
     },

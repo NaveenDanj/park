@@ -18,7 +18,7 @@
               v-model="username"
               :rules="[() => !!username || 'This field is required']"
               label="Username"
-              placeholder="Johndoe"
+              placeholder="John Doe"
               @keydown.enter="login"
               required
             ></v-text-field

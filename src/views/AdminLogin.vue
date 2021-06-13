@@ -21,7 +21,7 @@
           <v-text-field
             v-model="username"
             :rules="[() => !!username || 'This field is required']"
-            label="Admin Username"
+            label="Username"
             placeholder="John Doe"
             @keydown.enter="submit"
             required
@@ -30,7 +30,7 @@
           <v-text-field
             v-model="password"
             :rules="[() => !!password || 'This field is required']"
-            label="Admin Password"
+            label="Password"
             placeholder="Password"
             type="password"
             @keydown.enter="submit"
