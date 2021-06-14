@@ -29,7 +29,7 @@
         </v-card-text>
 
         <v-card-actions>
-          <v-btn color="warning" @click="cancel"> Cancel </v-btn>
+          <v-btn color="warning" @click="cancel"> Annuleren </v-btn>
           <v-spacer></v-spacer>
           <v-btn color="success" @click="add_status">
             <v-icon left>mdi-plus</v-icon>

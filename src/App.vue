@@ -64,10 +64,10 @@
     </v-main>
 
     <v-footer>
-      <a href="https://www.entuza.com" target="blank">Entuza</a>
+      <a href="email:support@entuza.com" style="text-decoration:none" target="blank">Having a trouble ? support@entuza.com</a>
       <v-spacer></v-spacer>
       <div>
-        &copy; {{ new Date().getFullYear() }} Solution By Entuza Digital
+        &copy; {{ new Date().getFullYear() }} <a href="https://www.entuza.com" style="text-decoration:none" target="blank">Solution By Entuza Digital</a>
       </div>
     </v-footer>
   </v-app>

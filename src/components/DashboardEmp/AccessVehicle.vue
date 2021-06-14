@@ -346,7 +346,7 @@ export default {
 
                   if( checkItem.data().name1 == this.$store.state.currentUser.fname + " " + this.$store.state.currentUser.lname){
 
-                    if(this.status == 'Out Of Service'){
+                    if(this.status == 'Uitdienst'){
                       firebase.firestore().collection('access_list').doc(checkItem.id).delete()
                       .then(() => {
                         this.show = true;
@@ -371,7 +371,7 @@ export default {
 
                   }else{
 
-                    if(this.status == 'Out Of Service'){
+                    if(this.status == 'Uitdienst'){
                       firebase.firestore().collection('access_list').doc(checkItem.id).delete()
                       .then(() => {
                         this.show = true;
@@ -400,7 +400,7 @@ export default {
 
             if(check.exists){
 
-              if(this.status == 'Out Of Service'){
+              if(this.status == 'Uitdienst'){
 
 
                 firebase.firestore().collection('access_list').doc(this.fname +'_' + this.lname).delete()
@@ -476,7 +476,7 @@ export default {
 
       if(this.fullname != null && this.updated_status != null){
 
-        if(this.updated_status == 'Out Of Service'){
+        if(this.updated_status == 'Uitdienst'){
 
           firebase.firestore().collection('access_list').doc(this.fullname).delete()
           .then(() => {

@@ -83,7 +83,7 @@
         </v-card-text>
 
         <v-card-actions>
-          <v-btn color="warning" @click="this.resetForm"> Clear </v-btn>
+          <v-btn color="warning" @click="this.resetForm"> Annuleren </v-btn>
           <v-spacer></v-spacer>
           <v-btn color="success" @click="add_user">
             <v-icon left>mdi-plus</v-icon>
@@ -126,7 +126,7 @@
 
         <v-card-actions>
 
-          <v-btn color="warning" @click="this.reset_new_pass" > Clear </v-btn>
+          <v-btn color="warning" @click="this.reset_new_pass" > Annuleren </v-btn>
 
           <v-spacer></v-spacer>
 

@@ -34,7 +34,7 @@
         </v-card-text>
 
         <v-card-actions>
-          <v-btn color="warning" @click="cancel"> Cancel </v-btn>
+          <v-btn color="warning" @click="cancel"> Annuleren </v-btn>
           <v-spacer></v-spacer>
           <v-btn color="success" @click="add_status">
             <v-icon left>mdi-plus</v-icon>
@@ -68,11 +68,12 @@
                             ></v-list-item-title>
                           </v-list-item-content>
 
-                          <v-list-item-action>
+                          <v-list-item-action v-if="item.name != 'Uitdienst' " >
                             <v-icon @click="handleDelete(item.name)"
                               >mdi-close</v-icon
                             >
                           </v-list-item-action>
+
                         </template>
                       </v-list-item>
                     </template>
