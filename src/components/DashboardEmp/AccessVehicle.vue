@@ -61,9 +61,9 @@
     </v-card-text>
 
     <v-card-actions>
-      <v-btn :disabled="!isEditing" color="warning" x-large @click="cancel">
+      <!-- <v-btn :disabled="!isEditing" color="warning" x-large @click="cancel">
         Annuleren
-      </v-btn>
+      </v-btn> -->
       <v-spacer></v-spacer>
       <v-btn :disabled="!isEditing" color="success" x-large @click="save">
         Indienen
@@ -74,7 +74,7 @@
     <v-divider></v-divider><br/>
     <v-card-text>
 
-      <v-row>
+      <!-- <v-row>
 
           <v-col cols="12" md="4">
             <v-select
@@ -103,7 +103,7 @@
             </v-btn>
           </v-col>
 
-        </v-row>
+        </v-row> -->
 
       </v-card-text>
 
@@ -145,12 +145,30 @@ export default {
 
           if(doc.data().fname == this.$store.state.currentUser.fname && doc.data().lname == this.$store.state.currentUser.lname){
             this.names.push(doc.id);
+            this.fname = doc.data().fname;
+            this.lname = doc.data().lname;
+            this.status = doc.data().status;
+            this.type = doc.data().type;
+
           }
 
         }else{
 
           if( doc.data().name1 == this.$store.state.currentUser.fname + " " + this.$store.state.currentUser.lname || doc.data().name2 == this.$store.state.currentUser.fname + " " + this.$store.state.currentUser.lname){
+            
+            if(doc.data().name1 == this.$store.state.currentUser.fname + " " + this.$store.state.currentUser.lname ){
+              this.status = doc.data().status1;
+              this.type = doc.data().type1;
+            }else{
+              this.status = doc.data().status2;
+              this.type = doc.data().type2;
+            }
+
+            this.fname = this.$store.state.currentUser.fname;
+            this.lname = this.$store.state.currentUser.lname;
+            
             this.names.push(doc.id);
+            
           }
 
         }
@@ -167,11 +185,28 @@ export default {
 
           if(doc.data().fname == this.$store.state.currentUser.fname && doc.data().lname == this.$store.state.currentUser.lname){
             this.names.push(doc.id);
+            this.fname = doc.data().fname;
+            this.lname = doc.data().lname;
+            this.status = doc.data().status;
+            this.type = doc.data().type;
           }
 
         }else{
           if( doc.data().name1 == this.$store.state.currentUser.fname + " " + this.$store.state.currentUser.lname || doc.data().name2 == this.$store.state.currentUser.fname + " " + this.$store.state.currentUser.lname){
+            
+            if(doc.data().name1 == this.$store.state.currentUser.fname + " " + this.$store.state.currentUser.lname ){
+              this.status = doc.data().status1;
+              this.type = doc.data().type1;
+            }else{
+              this.status = doc.data().status2;
+              this.type = doc.data().type2;
+            }
+
+            this.fname = this.$store.state.currentUser.fname;
+            this.lname = this.$store.state.currentUser.lname;
+            
             this.names.push(doc.id);
+          
           }
         }
 
@@ -246,6 +281,7 @@ export default {
 
             if(doc.data().fname == this.$store.state.currentUser.fname && doc.data().lname == this.$store.state.currentUser.lname){
               this.names.push(doc.id);
+              this.fullname = this.$store.state.currentUser.fname + " " + this.$store.state.currentUser.lname
             }
 
           }else{
@@ -291,22 +327,121 @@ export default {
     save() {
 
       if (this.fname == "" || this.lname == "" || this.type == null || this.status == null){
+
         this.show = true;
         this.message = 'Fields cannot be empty';
+
       }else{
+
         
         firebase.firestore().collection('access_list').doc(this.fname +'_' + this.lname).get()
         .then(check => {
+
+
+            firebase.firestore().collection('access_list').get()
+            .then(snap => {
+              snap.forEach(checkItem =>{
+
+                if(checkItem.id.includes(this.fname + " "  + this.lname)){
+
+                  if( checkItem.data().name1 == this.$store.state.currentUser.fname + " " + this.$store.state.currentUser.lname){
+
+                    if(this.status == 'Out Of Service'){
+                      firebase.firestore().collection('access_list').doc(checkItem.id).delete()
+                      .then(() => {
+                        this.show = true;
+                        this.message = 'You have updated your old status'; 
+                      })
+
+                    }else{
+
+                      firebase.firestore().collection('access_list').doc(checkItem.id).update({
+                        status1 : this.status,
+                        type1 : this.type,
+                        time : this.get_today_date() + " " + this.get_today_time()
+                      })
+                      .then(() => {
+                        console.log('type 1');
+                      });
+
+                    }
+
+                    
+
+
+                  }else{
+
+                    if(this.status == 'Out Of Service'){
+                      firebase.firestore().collection('access_list').doc(checkItem.id).delete()
+                      .then(() => {
+                        this.show = true;
+                        this.message = 'You have updated your old status'; 
+                      })
+                    }else{
+                      firebase.firestore().collection('access_list').doc(checkItem.id).update({
+                        status2 : this.status,
+                        type2 : this.type,
+                        time : this.get_today_date() + " " + this.get_today_time()
+                      })
+                      .then(() => {
+                        console.log('type 2')
+                      });
+                    }
+                    
+                    
+
+                  }
+
+                }
+
+              })
+            })
+
+
             if(check.exists){
-                this.show = true;
-                this.message = 'You have already submitted this status'; 
+
+              if(this.status == 'Out Of Service'){
+
+
+                firebase.firestore().collection('access_list').doc(this.fname +'_' + this.lname).delete()
+                .then(() => {
+                  this.show = true;
+                  this.message = 'Status updated successfully [Deleted Record!]';
+                  this.update_name_list();
+                })
+
+
+              }else{
+
+
+                firebase.firestore().collection('access_list').doc(this.fname +'_' + this.lname).update({
+                  status : this.status,
+                  type : this.type,
+                  time : this.get_today_date() + " " + this.get_today_time(),
+                })
+                .then(() => {
+                  this.show = true;
+                  this.message = 'You have updated your old status'; 
+                })
+                .catch(update_err => {
+                  this.show = true;
+                  this.message = update_err; 
+                });
+
+              }
+
+              
+
             }else{
+
                 firebase.firestore().collection('access_list').doc(this.fname +'_' + this.lname).set({
-                    fname : this.fname,
-                    lname : this.lname,
-                    status : this.status,
-                    time : this.get_today_date() + " " + this.get_today_time(),
-                    type : this.type
+
+                  fname : this.fname,
+                  lname : this.lname,
+                  status : this.status,
+                  time : this.get_today_date() + " " + this.get_today_time(),
+                  type : this.type
+
                 })
                 .then(() => {
 
@@ -315,17 +450,19 @@ export default {
                   // this.isEditing = !this.isEditing;
                   this.hasSaved = true;
 
-                  this.fname = null;
-                  this.lname = null;
-                  this.status = null;
-                  this.type = null;
+                  // this.fname = null;
+                  // this.lname = null;
+                  // this.status = null;
+                  // this.type = null;
 
                   this.fname = this.$store.state.currentUser.fname;
                   this.lname = this.$store.state.currentUser.lname;
 
                 })
                 .catch((error) => {
-                    console.error("Error writing document: ", error);
+
+                  console.error("Error writing document: ", error);
+
                 });
             }
         });

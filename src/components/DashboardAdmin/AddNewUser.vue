@@ -46,7 +46,7 @@
           <v-row>
 
 
-            <v-col cols="12" md="12">
+            <v-col cols="12" md="6">
               <v-text-field
                 label="Username"
                 v-model="username"
