@@ -63,6 +63,7 @@
         </v-card>
       </v-col>
     </v-row>
+    <center><h3 style="font-family: Roboto; font-size : 15px; margin-top : 10px; font-weight : bold; ">Vergeet niet bij het uit dienst gaan je status up te date naar uit dienst</h3></center>
   </div>
 </template>
 

@@ -4,13 +4,17 @@
       <h4>Loading...</h4>
     </div>
 
-    <v-row v-else justify="center" class="mt-5">
+    <v-row v-else justify="center" class="mt-2">
       <v-col cols="12" sm="12" md="1" lg="12">
-        <marquee  behavior="scroll" direction="left" height="100px">
-          <label v-for="(part , index) in slides" :key="index">
-            {{part + " ... "}}
-          </label>
-        </marquee>
+        <div style="background-color : lightgreen;" >
+          <marquee   behavior="scroll" direction="left" height="20px">
+              <div class="d-flex">
+                <div style="margin-right : 100px; font-weight : bold; margin-top : 1px; font-size : 15px;" v-for="(part , index) in slides" :key="index" >
+                  {{part}}
+                </div>
+              </div>
+          </marquee> 
+        </div>
 
         <!-- <v-carousel
           cycle

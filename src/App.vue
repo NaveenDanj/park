@@ -67,6 +67,8 @@
 
       <a v-if="this.$route.name == 'EmployeeDash' " href="mailto:support@intento.nl" style="text-decoration:none" target="blank">Having a trouble ? support@intento.com</a>
       <a v-if="this.$route.name == 'AdminDash' " href="mailto:support@entuza.com" style="text-decoration:none" target="blank">Having a trouble ? support@entuza.com</a>
+      <a v-if="this.$route.name == 'Home' " href="mailto:support@intento.nl" style="text-decoration:none" target="blank">Having a trouble ? support@intento.com</a>
+      <a v-if="this.$route.name == 'AdminLogin' " href="mailto:support@entuza.com" style="text-decoration:none" target="blank">Having a trouble ? support@entuza.com</a>
       <v-spacer></v-spacer>
       <div>
         &copy; {{ new Date().getFullYear() }} <a href="https://www.entuza.com" style="text-decoration:none" target="blank">Solution By Entuza Digital</a>

@@ -1,4 +1,5 @@
 <template>
+<div>
   <v-card
     class="overflow-hidden"
     min-height="500"
@@ -8,7 +9,7 @@
     <v-toolbar flat color="#0036d9">
       <v-icon class="white--text">mdi-account</v-icon>
       <v-toolbar-title class="font-weight-light ml-3 white--text">
-        Access A Vehicle</v-toolbar-title
+        Kies Je Voertuig</v-toolbar-title
       >
       <v-spacer></v-spacer>
       
@@ -69,52 +70,7 @@
         Indienen
       </v-btn>
     </v-card-actions>
-
-
     <v-divider></v-divider>
-    <v-card-actions>
-      .
-      <v-spacer></v-spacer>
-      Vergeet niet bij het uit dienst gaan je status up te date naar uit dienst
-    </v-card-actions>
-    
-    <v-card-text>
-
-      <!-- <v-row>
-
-          <v-col cols="12" md="4">
-            <v-select
-              v-model="fullname"
-              :items="names"
-              label="Select Username"
-              outlined
-            ></v-select>
-          </v-col>
-
-          <v-col cols="12" md="4">
-
-           <v-select
-              v-model="updated_status"
-              :items="status_list"
-              color="white"
-              item-text="name"
-              label="Status"
-            ></v-select>
-
-          </v-col>
-
-          <v-col cols="12" md="4">
-            <v-btn color="success" @click="update_status">
-              Update Status
-            </v-btn>
-          </v-col>
-
-        </v-row> -->
-
-      </v-card-text>
-
-
-
 
     <v-snackbar v-model="hasSaved" :timeout="2000" absolute bottom left>
       New Access Vehicle Created
@@ -122,6 +78,10 @@
 
     <AlertBox :show="show" @clickOK="handleOK" :showError="message" />
   </v-card>
+
+    
+
+</div>
 </template>
 
 <script>
