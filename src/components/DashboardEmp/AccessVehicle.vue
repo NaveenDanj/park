@@ -71,7 +71,13 @@
     </v-card-actions>
 
 
-    <v-divider></v-divider><br/>
+    <v-divider></v-divider>
+    <v-card-actions>
+      .
+      <v-spacer></v-spacer>
+      Vergeet niet bij het uit dienst gaan je status up te date naar uit dienst
+    </v-card-actions>
+    
     <v-card-text>
 
       <!-- <v-row>

@@ -6,7 +6,13 @@
 
     <v-row v-else justify="center" class="mt-5">
       <v-col cols="12" sm="12" md="1" lg="12">
-        <v-carousel
+        <marquee  behavior="scroll" direction="left" height="100px">
+          <label v-for="(part , index) in slides" :key="index">
+            {{part + " ... "}}
+          </label>
+        </marquee>
+
+        <!-- <v-carousel
           cycle
           height="100%"
           hide-delimiter-background
@@ -39,21 +45,13 @@
                           >Message by Entuza Digital</v-list-item-title
                         >
                       </v-list-item-content>
-
-                      <!-- <v-row align="center" justify="end">
-                        <v-icon class="mr-1">mdi-heart</v-icon>
-                        <span class="subheading mr-2">256</span>
-                        <span class="mr-1">·</span>
-                        <v-icon class="mr-1">mdi-share-variant</v-icon>
-                        <span class="subheading">45</span>
-                      </v-row> -->
                     </v-list-item>
                   </v-card-actions>
                 </v-card>
               </v-row>
             </v-sheet>
           </v-carousel-item>
-        </v-carousel>
+        </v-carousel> -->
       </v-col>
 
       <v-col cols="12" sm="10" md="8" lg="10">
@@ -108,10 +106,9 @@
                 x-large
                 @click="refresh_data"
                 class="ml-2 mr-5 mb-3 white--text"
-                >
-                  Refresh
+              >
+                Refresh
               </v-btn>
-              
 
               <v-card
                 v-for="(item, index) in this.item_list"
@@ -121,8 +118,10 @@
                 class="ma-5"
               >
                 <div v-if="!item.merge">
-                  <v-card-title >
-                    <p style="font-family : 'roboto'; font-size : 12 " >{{ item.fname }} {{ item.lname }}</p>
+                  <v-card-title>
+                    <p style="font-family: 'roboto'; font-size: 12">
+                      {{ item.fname }} {{ item.lname }}
+                    </p>
                     <v-spacer></v-spacer>
                     <v-checkbox
                       v-model="selected"
@@ -144,7 +143,9 @@
                   <v-row>
                     <v-col cols="12" md="6">
                       <v-card-title class="headline">
-                        <p style="font-family : 'roboto'; font-size : 12 " >{{ item.name1 }}</p>
+                        <p style="font-family: 'roboto'; font-size: 12">
+                          {{ item.name1 }}
+                        </p>
                         <v-spacer></v-spacer>
                       </v-card-title>
 
@@ -160,7 +161,9 @@
 
                     <v-col cols="12" md="6">
                       <v-card-title class="headline">
-                        <p style="font-family : 'roboto'; font-size : 12 " >{{ item.name2 }}</p>
+                        <p style="font-family: 'roboto'; font-size: 12">
+                          {{ item.name2 }}
+                        </p>
                         <v-spacer></v-spacer>
 
                         <v-checkbox
@@ -172,6 +175,7 @@
                       <v-card-subtitle class="mt-0">
                         <h3>Status : {{ item.status2 }}</h3>
                         <h3>Category : {{ item.type2 }}</h3>
+                        1
                       </v-card-subtitle>
 
                       <v-card-actions>
@@ -181,7 +185,6 @@
                   </v-row>
                 </div>
               </v-card>
-              
             </v-tab-item>
 
             <v-tab-item>
@@ -227,7 +230,6 @@ export default {
   },
 
   created() {
-
     firebase
       .firestore()
       .collection("news")
@@ -313,7 +315,7 @@ export default {
       vehicle_list: ["All"],
       vehicle_type: null,
 
-      slides : [],
+      slides: [],
 
       alertshow: false,
       message: "",
@@ -323,22 +325,20 @@ export default {
   },
 
   methods: {
-
-    refresh_data(){
-
+    refresh_data() {
       this.item_list = [];
 
       firebase
-      .firestore()
-      .collection("access_list")
-      .get()
-      .then((snap) => {
-        snap.forEach((doc) => {
-          this.item_list.push(doc.data());
-        });
+        .firestore()
+        .collection("access_list")
+        .get()
+        .then((snap) => {
+          snap.forEach((doc) => {
+            this.item_list.push(doc.data());
+          });
 
-        this.loading = false;
-      });
+          this.loading = false;
+        });
     },
 
     checkLogin() {

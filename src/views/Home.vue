@@ -4,10 +4,10 @@
       <v-col v-if="!loading" cols="12" sm="10" md="8" lg="6">
         <v-card ref="form">
           
-          <v-toolbar flat color="purple">
+          <v-toolbar flat color="#0036d9">
             <v-icon class="white--text">mdi-account</v-icon>
             <v-toolbar-title class="font-weight-light white--text ml-3">
-              Employee Login
+              Inlogen
             </v-toolbar-title>
           </v-toolbar>
 
@@ -16,8 +16,8 @@
           <v-card-text>
             <v-text-field
               v-model="username"
-              :rules="[() => !!username || 'This field is required']"
-              label="Username"
+              :rules="[() => !!username || 'Verplicht in tevullen']"
+              label="Gebruikersnaam"
               placeholder="John Doe"
               @keydown.enter="login"
               required
@@ -28,9 +28,9 @@
               v-model="password"
               autocomplete
               type="password"
-              :rules="[() => !!password || 'This field is required']"
-              label="Password"
-              placeholder="Password"
+              :rules="[() => !!password || 'Verplicht in tevullen']"
+              label="Wachtwoord"
+              placeholder="password"
               @keydown.enter="login"
               required
             ></v-text-field>
@@ -40,12 +40,12 @@
 
           <v-divider class="mt-12"></v-divider>
           <v-card-actions>
-            <v-btn class="ma-2" outlined color="warning" @click="clear" large>Clear</v-btn>
+            <v-btn class="ma-2" outlined color="warning" @click="clear" large>Annuleren</v-btn>
 
             <v-spacer></v-spacer>
 
             <v-btn class="ma-2" outlined color="success" large @click="login"
-              >Login</v-btn
+              >Inloggen</v-btn
             >
 
 
