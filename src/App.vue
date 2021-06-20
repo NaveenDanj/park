@@ -65,9 +65,9 @@
 
     <v-footer>
 
-      <a v-if="this.$route.name == 'EmployeeDash' " href="mailto:support@intento.nl" style="text-decoration:none" target="blank">Having a trouble ? support@intento.nl</a>
+      <a v-if="this.$route.name == 'EmployeeDash' " href="mailto:support@intento.nl" style="text-decoration:none" target="blank">Having a trouble ? info@intento.nl</a>
       <a v-if="this.$route.name == 'AdminDash' " href="mailto:support@entuza.com" style="text-decoration:none" target="blank">Having a trouble ? support@entuza.com</a>
-      <a v-if="this.$route.name == 'Home' " href="mailto:support@intento.nl" style="text-decoration:none" target="blank">Having a trouble ? support@intento.nl</a>
+      <a v-if="this.$route.name == 'Home' " href="mailto:support@intento.nl" style="text-decoration:none" target="blank">Having a trouble ? info@intento.nl</a>
       <a v-if="this.$route.name == 'AdminLogin' " href="mailto:support@entuza.com" style="text-decoration:none" target="blank">Having a trouble ? support@entuza.com</a>
       <v-spacer></v-spacer>
       <div>
